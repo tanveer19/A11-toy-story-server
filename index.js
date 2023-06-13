@@ -47,6 +47,11 @@ async function run() {
       console.log(result);
       res.send(result);
     });
+
+    app.get("/alltoys", async (req, res) => {
+      const result = await postToyCollection.find({}).toArray();
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
