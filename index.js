@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-console.log(process.env.DB_USER);
+// console.log(process.env.DB_USER);
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.3nmy0xp.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -54,8 +54,16 @@ async function run() {
       res.send(result);
     });
 
+    // sending data to server
+
     app.post("/postToy", async (req, res) => {
       const body = req.body;
+
+      // validating body
+
+      if (!body) {
+        return res.status(404).send({ message: "body data not found" });
+      }
       const result = await postToyCollection.insertOne(body);
       console.log(result);
       res.send(result);
