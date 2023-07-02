@@ -41,18 +41,39 @@ async function run() {
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
 
+    // show all toys in shop page
+
+    app.get("/alltoys/:text", async (req, res) => {
+      console.log(req.params.text);
+      if (
+        req.params.text == "sports" ||
+        req.params.text == "truck" ||
+        req.params.text == "police"
+      ) {
+        const result = await postToyCollection
+          .find({ subCategory: req.params.text })
+          .toArray();
+        console.log(result);
+        return res.send(result);
+      }
+      const result = await postToyCollection.find({}).toArray();
+      res.send(result);
+    });
+
+    //show data in alltoys page
+
     app.get("/alltoys", async (req, res) => {
       const result = await postToyCollection.find({}).toArray();
       res.send(result);
     });
 
-    app.get("/mytoys/:email", async (req, res) => {
-      console.log(req.params.email);
-      const result = await toyCollection
-        .find({ sellerEmail: req.params.email })
-        .toArray();
-      res.send(result);
-    });
+    // app.get("/mytoys/:email", async (req, res) => {
+    //   console.log(req.params.email);
+    //   const result = await toyCollection
+    //     .find({ sellerEmail: req.params.email })
+    //     .toArray();
+    //   res.send(result);
+    // });
 
     // sending data to server
 
