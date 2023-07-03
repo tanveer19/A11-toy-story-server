@@ -52,11 +52,15 @@ async function run() {
       ) {
         const result = await postToyCollection
           .find({ subCategory: req.params.text })
+          .sort({ createdAt: -1 })
           .toArray();
         console.log(result);
         return res.send(result);
       }
-      const result = await postToyCollection.find({}).toArray();
+      const result = await postToyCollection
+        .find({})
+        .sort({ createdAt: -1 })
+        .toArray();
       res.send(result);
     });
 
@@ -79,7 +83,7 @@ async function run() {
 
     app.post("/postToy", async (req, res) => {
       const body = req.body;
-
+      body.createdAt = new Date();
       // validating body
 
       if (!body) {
