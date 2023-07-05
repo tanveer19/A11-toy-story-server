@@ -9,8 +9,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// console.log(process.env.DB_USER);
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.3nmy0xp.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -38,13 +36,13 @@ async function run() {
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "Pinged your deployment. You are successfully connected to MongoDB!"
     );
 
     // show all toys in shop page
 
     app.get("/alltoys/:text", async (req, res) => {
-      console.log(req.params.text);
+      // console.log(req.params.text);
       if (
         req.params.text == "sports" ||
         req.params.text == "truck" ||
@@ -54,7 +52,7 @@ async function run() {
           .find({ subCategory: req.params.text })
           .sort({ createdAt: -1 })
           .toArray();
-        console.log(result);
+        // console.log(result);
         return res.send(result);
       }
       const result = await postToyCollection
