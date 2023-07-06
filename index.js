@@ -69,11 +69,15 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/mytoys/:email", async (req, res) => {
-      console.log(req.params.email);
-      const result = await toyCollection
-        .find({ sellerEmail: req.params.email })
-        .toArray();
+    //show data in mytoys page based on email
+
+    app.get("/mytoys", async (req, res) => {
+      console.log(req.query.sellerEmail);
+      let query = {};
+      if (req.query?.sellerEmail) {
+        query = { sellerEmail: req.query.sellerEmail };
+      }
+      const result = await postToyCollection.find(query).toArray();
       res.send(result);
     });
 
