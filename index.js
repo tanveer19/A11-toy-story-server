@@ -72,7 +72,7 @@ async function run() {
     //show data in mytoys page based on email
 
     app.get("/mytoys", async (req, res) => {
-      console.log(req.query.sellerEmail);
+      // console.log(req.query.sellerEmail);
       let query = {};
       if (req.query?.sellerEmail) {
         query = { sellerEmail: req.query.sellerEmail };
@@ -92,7 +92,7 @@ async function run() {
         return res.status(404).send({ message: "body data not found" });
       }
       const result = await postToyCollection.insertOne(body);
-      console.log(result);
+      // console.log(result);
       res.send(result);
     });
   } finally {
