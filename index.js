@@ -25,11 +25,29 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     client.connect();
 
-    const toyCollection = client.db("A11-toys").collection("toys");
     const postToyCollection = client.db("A11-toys").collection("postToy");
 
+    // Creating index on two fields
+    const indexKeys = { name: 1, sellerName: 1 }; // Replace field1 and field2 with your actual field names
+    const indexOptions = { name: "nameSeller" }; // Replace index_name with the desired index name
+    const result = await postToyCollection.createIndex(indexKeys, indexOptions);
+
+    app.get("/toySearchByTitle/:text", async () => {
+      const searchText = req.params.text;
+
+      const result = await postToyCollection
+        .find({
+          $or: [
+            { name: { $regex: searchText, $options: "i" } },
+            { sellerName: { $regex: searchText, $options: "i" } },
+          ],
+        })
+        .toArray();
+      res.send(result);
+    });
+
     app.get("/toys", async (req, res) => {
-      const cursor = toyCollection.find();
+      const cursor = postToyCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
