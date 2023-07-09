@@ -28,11 +28,13 @@ async function run() {
     const postToyCollection = client.db("A11-toys").collection("postToy");
 
     // Creating index on two fields
-    const indexKeys = { name: 1, sellerName: 1 }; // Replace field1 and field2 with your actual field names
-    const indexOptions = { name: "nameSeller" }; // Replace index_name with the desired index name
+    const indexKeys = { name: 1, sellerName: 1 };
+    // Replace field1 and field2 with your actual field names
+    const indexOptions = { name: "nameSeller" };
+    // Replace index_name with the desired index name
     const result = await postToyCollection.createIndex(indexKeys, indexOptions);
 
-    app.get("/toySearchByTitle/:text", async () => {
+    app.get("/toySearchByTitle/:text", async (req, res) => {
       const searchText = req.params.text;
 
       const result = await postToyCollection
