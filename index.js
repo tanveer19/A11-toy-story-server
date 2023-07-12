@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -112,7 +112,28 @@ async function run() {
         return res.status(404).send({ message: "body data not found" });
       }
       const result = await postToyCollection.insertOne(body);
-      // console.log(result);
+      res.send(result);
+    });
+
+    // update using modal
+
+    app.put("/updateToy/:id", async (req, res) => {
+      const id = req.params.id;
+      const body = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          sellerName: body.sellerName,
+          name: body.name,
+          price: body.price,
+          rating: body.rating,
+          quantity: body.quantity,
+          description: body.description,
+          subCategory: body.subCategory,
+          URL: body.URL,
+        },
+      };
+      const result = await postToyCollection.updateOne(filter, updateDoc);
       res.send(result);
     });
   } finally {
