@@ -27,10 +27,12 @@ async function run() {
 
     const postToyCollection = client.db("A11-toys").collection("postToy");
 
+    // search toys
+
     // Creating index on two fields
-    const indexKeys = { name: 1, sellerName: 1 };
+    const indexKeys = { name: 1 };
     // Replace field1 and field2 with your actual field names
-    const indexOptions = { name: "nameSeller" };
+    const indexOptions = { name: "nameToys" };
     // Replace index_name with the desired index name
     const result = await postToyCollection.createIndex(indexKeys, indexOptions);
 
@@ -41,7 +43,9 @@ async function run() {
         .find({
           $or: [
             { name: { $regex: searchText, $options: "i" } },
-            { sellerName: { $regex: searchText, $options: "i" } },
+
+            // to search for sellername field, you can add this
+            // { sellerName: { $regex: searchText, $options: "i" } },
           ],
         })
         .toArray();
@@ -53,6 +57,7 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
