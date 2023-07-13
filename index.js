@@ -90,7 +90,13 @@ async function run() {
     //show data in alltoys page
 
     app.get("/alltoys", async (req, res) => {
-      const result = await postToyCollection.find({}).toArray();
+      // Set a default limit of 20 if not specified
+      const limit = parseInt(req.query.limit) || 20;
+      const result = await postToyCollection
+        .find({})
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .toArray();
       res.send(result);
     });
 
