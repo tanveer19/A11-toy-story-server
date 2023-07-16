@@ -64,29 +64,6 @@ async function run() {
       "Pinged your deployment. You are successfully connected to MongoDB!"
     );
 
-    // show all toys in shop page
-
-    app.get("/alltoys/:text", async (req, res) => {
-      // console.log(req.params.text);
-      if (
-        req.params.text == "sports" ||
-        req.params.text == "truck" ||
-        req.params.text == "police"
-      ) {
-        const result = await postToyCollection
-          .find({ subCategory: req.params.text })
-          .sort({ createdAt: -1 })
-          .toArray();
-        // console.log(result);
-        return res.send(result);
-      }
-      const result = await postToyCollection
-        .find({})
-        .sort({ createdAt: -1 })
-        .toArray();
-      res.send(result);
-    });
-
     //show data in alltoys page
 
     app.get("/alltoys", async (req, res) => {
@@ -109,6 +86,29 @@ async function run() {
         query = { sellerEmail: req.query.sellerEmail };
       }
       const result = await postToyCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // show all toys in shop page
+
+    app.get("/alltoys/:text", async (req, res) => {
+      // console.log(req.params.text);
+      if (
+        req.params.text == "sports" ||
+        req.params.text == "truck" ||
+        req.params.text == "police"
+      ) {
+        const result = await postToyCollection
+          .find({ subCategory: req.params.text })
+          .sort({ createdAt: -1 })
+          .toArray();
+        // console.log(result);
+        return res.send(result);
+      }
+      const result = await postToyCollection
+        .find({})
+        .sort({ createdAt: -1 })
+        .toArray();
       res.send(result);
     });
 
