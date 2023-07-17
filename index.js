@@ -71,7 +71,7 @@ async function run() {
       const limit = parseInt(req.query.limit) || 20;
       const result = await postToyCollection
         .find({})
-        .sort({ createdAt: -1 })
+        .sort({ price: -1 })
         .limit(limit)
         .toArray();
       res.send(result);
