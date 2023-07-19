@@ -30,11 +30,16 @@ async function run() {
     // search toys
 
     // Creating index on two fields
-    const indexKeys = { name: 1 };
+
+    // const indexKeys = { name: 1 };
+
     // Replace field1 and field2 with your actual field names
-    const indexOptions = { name: "nameToys" };
+
+    // const indexOptions = { name: "nameToys" };
+
     // Replace index_name with the desired index name
-    const result = await postToyCollection.createIndex(indexKeys, indexOptions);
+
+    // const result = await postToyCollection.createIndex(indexKeys, indexOptions);
 
     app.get("/toySearchByTitle/:text", async (req, res) => {
       const searchText = req.params.text;
