@@ -27,6 +27,18 @@ async function run() {
 
     const postToyCollection = client.db("A11-toys").collection("postToy");
 
+    app.get("/toys", async (req, res) => {
+      const cursor = postToyCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You are successfully connected to MongoDB!"
+    );
+
     // search toys
 
     // Creating index on two fields
@@ -56,18 +68,6 @@ async function run() {
         .toArray();
       res.send(result);
     });
-
-    app.get("/toys", async (req, res) => {
-      const cursor = postToyCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
-    });
-
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You are successfully connected to MongoDB!"
-    );
 
     //show data in alltoys page
 
