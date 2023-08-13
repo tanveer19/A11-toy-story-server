@@ -1,5 +1,3 @@
-# b7a11-toy-marketplace-server-side-tanveer19
-
-Assignment 11
+A11-toy-story-server
 
 Live site link: https://a11-toy.web.app/
